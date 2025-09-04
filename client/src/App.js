@@ -24,7 +24,7 @@ function App() {
 
   return (
      <DataProvider>
-        <BrowserRouter>
+        <BrowserRouter basename="/blog_app">
           
           <div style={{ marginTop: 64 }}>
             
