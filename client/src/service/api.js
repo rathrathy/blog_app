@@ -2,7 +2,8 @@ import axios from 'axios';
 import { API_NOTIFICATION_MESSAGES, SERVICE_URLS } from '../constants/config.js';
 import { getAccessToken, getRefreshToken } from '../utils/common-utils.js';
 
-const API_URL = 'http://localhost:8000';
+//http://localhost:8000
+const API_URL = 'https://blog-server-1-do2f.onrender.com';
 
 const axiosInstance = axios.create({
     baseURL: API_URL,
