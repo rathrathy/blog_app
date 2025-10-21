@@ -65,40 +65,28 @@ const CreatePost = () => {
 
     useEffect(() => {
         const getImage = async () => { 
-            if (!file) return;
-            const data = new FormData();
-            data.append("name", file.name);
-            data.append("file", file);
+            if (file) {
+                const data = new FormData();
+                data.append("name", file.name);
+                data.append("file", file);
 
-            try {
-                const response = await API.uploadFile(data);
-                // update state instead of mutating
-                setPost(prev => ({ ...prev, picture: response.data }));
-            } catch (error) {
-                console.error("Error uploading file:", error);
+                try {
+                    const response = await API.uploadFile(data);
+                    post.picture = response.data;
+                } catch (error) {
+                    console.error("Error uploading file:", error);
+                }
             }
         };
         getImage();
+        post.categories = location.search?.split('=')[1] || 'music';
+        post.username = account.username;
     }, [file]);
 
-    useEffect(() => {
-        setPost(prev => ({
-            ...prev,
-            categories: location.search?.split('=')[1] || 'music',
-            username: account?.username || prev.username
-        }));
-    }, [location.search, account]);
-
     const savePost = async () => {
-        try {
-            const response = await API.createPost(post);
-            if (response?.isSuccess) {
-                navigate('/');
-            } else {
-                console.error('Create post failed', response);
-            }
-        } catch (err) {
-            console.error('Error creating post', err);
+        let response=await API.createPost(post);
+        if (response.isSuccess){
+            navigate('/');
         }
     }
 
