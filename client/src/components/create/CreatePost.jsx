@@ -84,9 +84,16 @@ const CreatePost = () => {
     }, [file]);
 
     const savePost = async () => {
-        let response=await API.createPost(post);
-        if (response.isSuccess){
-            navigate('/');
+        try {
+            const response = await API.createPost(post);
+            if (response?.isSuccess) {
+                navigate('/');
+            } else {
+                console.error('Create post failed', response);
+            }
+        } catch (err) {
+            // show detailed error
+            console.error('Create post error', err?.response?.status, err?.response?.data || err?.message || err);
         }
     }
 
