@@ -109,4 +109,19 @@ for (const [key, value] of Object.entries(SERVICE_URLS)) {
     
 }
 
+// Add this function to handle file uploads
+export const uploadFile = async (data) => {
+    try {
+        const response = await axios.post(`${API_URL}/file/upload`, data, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        throw error;
+    }
+};
+
 export { API };

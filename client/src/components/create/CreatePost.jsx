@@ -64,18 +64,24 @@ const CreatePost = () => {
     const url = post.picture ? post.picture :'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
 
     useEffect(() => {
-        const getImage = async () => { 
-            if (file) {
-                const data = new FormData();
-                data.append("name", file.name);
-                data.append("file", file);
+        const getImage = async () => {
+            if (!file) return;
+            
+            const data = new FormData();
+            data.append("name", file.name);
+            data.append("file", file);
 
-                try {
-                    const response = await API.uploadFile(data);
-                    post.picture = response.data;
-                } catch (error) {
-                    console.error("Error uploading file:", error);
-                }
+            try {
+                const response = await API.uploadFile(data);
+                console.log('Upload response:', response); // Debug log
+                setPost(prev => ({
+                    ...prev,
+                    picture: response.data
+                }));
+            } catch (error) {
+                console.error('Error uploading image:', error.response?.data || error.message);
+                // Add user feedback here
+                alert('Failed to upload image. Please try again.');
             }
         };
         getImage();
