@@ -1,49 +1,50 @@
-import { useState } from 'react';
-import Login from './components/account/Login';
-import DataProvider from './context/DataProvider';
-import Home from './components/home/Home';
-import {BrowserRouter, Routes, Route, Outlet, Navigate} from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/header/Header';
+import Home from './components/home/Home';
+import Login from './components/account/Login';
 import CreatePost from './components/create/CreatePost';
+import DataProvider from './context/DataProvider';
 
-
-
-const PrivateRoute = ({ isAuthenticated, ...props }) => {
-  // const token = sessionStorage.getItem('accessToken');
-  return isAuthenticated ? 
+const PrivateRoute = ({ isAuthenticated, children }) => {
+  return isAuthenticated ? (
     <>
       <Header />
-      <Outlet />
-    </> : <Navigate replace to='/login' />
+      {children}
+    </>
+  ) : <Navigate replace to="/login" />;
 };
 
-
 function App() {
-
-  const [isAuthenticated, isUserAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
-     <DataProvider>
-        <BrowserRouter basename="/blog_app">
-          
-          <div style={{ marginTop: 64 }}>
-            
-            <Routes>
-              <Route path='/login' element={<Login isUserAuthenticated={isUserAuthenticated} />} />  
-              
-              <Route path='/' element={<PrivateRoute isAuthenticated={isAuthenticated} />} >
-              <Route path='/' element={<Home/>} />
-              </Route>
-
-              <Route path='/create' element={<PrivateRoute isAuthenticated={isAuthenticated} />} >
-              <Route path='/create' element={<CreatePost />} />
-              </Route>
-
-            </Routes>
-          </div>
-        </BrowserRouter>
-      </DataProvider>
-    
+    <DataProvider>
+      <BrowserRouter basename="/blog_app">
+        <div style={{ marginTop: 64 }}>
+          <Routes>
+            <Route path="/login" element={<Login onAuth={setIsAuthenticated} />} />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <Home />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/create"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <CreatePost />
+                </PrivateRoute>
+              }
+            />
+            {/* add other routes here */}
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </DataProvider>
   );
 }
 
