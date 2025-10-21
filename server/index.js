@@ -12,9 +12,17 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
-app.use(bodyParser.json({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true }));
+// Increase payload size limit
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+// Configure CORS
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://rathrathy.github.io'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use('/', Router);
 
 

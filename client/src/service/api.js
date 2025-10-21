@@ -6,9 +6,21 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 const axiosInstance = axios.create({
     baseURL: API_URL,
-    timeout: 10000, 
+    timeout: 30000, // Increased timeout
+    withCredentials: true,
     headers: {
-        "content-type": "application/json"
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    }
+});
+
+// Special instance for file uploads
+export const uploadInstance = axios.create({
+    baseURL: API_URL,
+    timeout: 30000,
+    withCredentials: true,
+    headers: {
+        "Content-Type": "multipart/form-data"
     }
 });
 
