@@ -114,7 +114,7 @@ const Login= ({isUserAuthenticated}) => {
             setAccount({ name: response.data.name, username: response.data.username });
             
             isUserAuthenticated(true)
-            // setLogin(loginInitialValues);
+            setLogin(loginInitialValues);
             navigate('/');
         } else {
             setError('Something went wrong! please try again later');

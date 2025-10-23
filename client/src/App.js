@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import Header from './components/Header';
-import Home from './components/Home';
-import Login from './components/Login';
+import Header from './components/header/Header';
+import Home from './components/home/Home';
+import Login from './components/account/Login';
 import CreatePost from './components/create/CreatePost';
 import DataProvider from './context/DataProvider';
 
